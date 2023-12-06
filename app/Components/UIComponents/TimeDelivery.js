@@ -1,9 +1,9 @@
 //import liraries
 import moment from 'moment';
-import { Icon } from 'native-base';
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { COLORS } from '../Constant/Color';
+import Icon from 'react-native-vector-icons/FontAwesome';
 // create a component
 const TimeDelivery = (props) => {
     const { sender, item } = props;
@@ -14,18 +14,13 @@ const TimeDelivery = (props) => {
             }]}
         >
             <Text style={{
-                fontFamily: 'Poppins-Regular', 
+                fontFamily: 'Poppins-Regular',
                 fontSize: 7,
                 color: sender ? COLORS.white : COLORS.black
             }}>
                 {moment(item.send_time).format('LLL')}
             </Text>
-                <Icon
-                    name = {"checkmark-done"}
-                    type = "Ionicons"
-                    style={{color: item.seen ? COLORS.black : COLORS.white , fontSize: 15, marginLeft: 5}}
-                />
-
+            <Icon name="check-circle" size={12} color={item.seen ? COLORS.black : COLORS.white} style={{marginLeft:4}} />
         </View>
     );
 };

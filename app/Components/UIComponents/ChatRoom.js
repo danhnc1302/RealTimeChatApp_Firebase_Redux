@@ -3,23 +3,22 @@ import { Text, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { Avatar } from "react-native-elements";
 import { FONTS } from "../Constant/Font";
 import { useNavigation } from "@react-navigation/native";
-export default function ChatRoom({chatPerson}) {
+export default function ChatRoom({ chatPerson }) {
     const navigation = useNavigation()
-    
     return (
         <TouchableOpacity style={styles.container}
             onPress={() => {
-                navigation.navigate("SingleChat", {receiverData: chatPerson})
+                navigation.navigate("SingleChat", { receiverData: chatPerson })
             }}
         >
             <Avatar
                 size="medium"
                 rounded={true}
-                source={{uri: chatPerson.item.img}}
+                source={{ uri: chatPerson.img }}
             />
             <View style={styles.wrapper}>
-                <Text style={styles.name}>{chatPerson.item.name}</Text>
-                <Text numberOfLines={1} ellipsizeMode="tail" style={styles.lastMsg}>{chatPerson.item.lastMsg}</Text>
+                <Text style={styles.name}>{chatPerson.name}</Text>
+                <Text numberOfLines={1} ellipsizeMode="tail" style={styles.lastMsg}>{chatPerson.lastMsg}</Text>
             </View>
         </TouchableOpacity>
     )

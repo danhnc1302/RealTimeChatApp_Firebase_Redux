@@ -122,7 +122,7 @@ export default function Home() {
                 showsHorizontalScrollIndicator={false}
                 showsVerticalScrollIndicator={false}
                 data={chatlist}
-                renderItem={(item) => <ChatRoom chatPerson={item} />}
+                renderItem={(item) => <ChatRoom chatPerson={item.item} />}
             />
             <TouchableOpacity
                 style={styles.searchUser}

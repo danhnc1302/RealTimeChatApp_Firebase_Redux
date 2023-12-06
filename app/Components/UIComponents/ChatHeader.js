@@ -23,7 +23,7 @@ const ChatHeader = ({ data }) => {
                 onPress={() => navigation.goBack()}
             />
             <Avatar
-                source={{ uri: data.item.img }}
+                source={{ uri: data.img }}
                 rounded
                 size="small"
             />
@@ -39,7 +39,7 @@ const ChatHeader = ({ data }) => {
                         textTransform: 'capitalize'
                     }}
                 >
-                    {data.item.name}
+                    {data.name}
                 </Text>
 
                 {/* <Text
