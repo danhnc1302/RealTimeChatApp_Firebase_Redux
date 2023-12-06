@@ -3,7 +3,7 @@ import { createStackNavigator, TransitionPresets } from '@react-navigation/stack
 import { COLORS } from "../Components/Constant/Color";
 import Home from "../Screens/Home/Home";
 import SingleChat from "../Screens/Home/SingleChat";
-
+import AllUser from "../Screens/User/AllUser";
 const Stack = createStackNavigator();
 
 export default function AppStack() {
@@ -19,6 +19,7 @@ export default function AppStack() {
         >
             <Stack.Screen name="Home" component={Home}/>
             <Stack.Screen name="SingleChat" component={SingleChat}/>
+            <Stack.Screen name="AllUser" component={AllUser}/>
         </Stack.Navigator>
     );
 }

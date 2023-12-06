@@ -1,18 +1,16 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
-    View,
     Text,
-    TouchableOpacity,
+    View,
     StatusBar,
-    FlatList,
-    StyleSheet
+    StyleSheet,
+    TextInput
 } from 'react-native'
-import { COLORS } from "../../Components/Constant/Color";
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { useNavigation } from "@react-navigation/native";
-import HomeHeader from "../../Components/UIComponents/HomeHeader";
+import { COLORS } from "../../Components/Constant/Color";
+import { FONTS } from "../../Components/Constant/Font";
+import { FlatList } from "react-native-gesture-handler";
 import ChatRoom from "../../Components/UIComponents/ChatRoom";
-
 
 const listData = [
     {
@@ -37,7 +35,8 @@ const listData = [
         name: 'Tom Holland',
         avatar_url:
             'https://static.toiimg.com/thumb.cms?msid=80482429&height=600&width=600',
-        subtitle: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
+        subtitle:
+            'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
     },
     {
         name: 'Robert',
@@ -61,7 +60,8 @@ const listData = [
         name: 'Chris Jackson',
         avatar_url:
             'https://images.pexels.com/photos/3748221/pexels-photo-3748221.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-        subtitle: ' If you use this site regularly and would like to help keep the site',
+        subtitle:
+            ' If you use this site regularly and would like to help keep the site',
     },
     {
         name: 'Jenifar Lawrence',
@@ -73,48 +73,58 @@ const listData = [
         name: 'Tom Holland',
         avatar_url:
             'https://static.toiimg.com/thumb.cms?msid=80482429&height=600&width=600',
-        subtitle: ' If you use this site regularly and would like to help keep the site',
+        subtitle:
+            ' If you use this site regularly and would like to help keep the site',
     },
 ];
 
 
 
-export default function Home() {
-    const navigation = useNavigation()
-    return (
-        <View style={{ flex: 1, backgroundColor: COLORS.white }}>
-            <StatusBar
-                backgroundColor={COLORS.white}
-                barStyle="dark-content"
-                hidden={false}
-            />
-            <HomeHeader />
-            <FlatList
-                showsHorizontalScrollIndicator={false}
-                showsVerticalScrollIndicator={false}
-                data={listData}
-                renderItem={(item) => <ChatRoom userData={item} />}
-            />
-            <TouchableOpacity
-                style={styles.searchUser}
-                onPress={() => navigation.navigate('AllUser')}
-            >
-                <Icon name="users" size={20} color="white" />
-            </TouchableOpacity>
-        </View>
-    )
-}
+const AllUser = () => {
+  const [search, setSearch] = useState("");
+  const inputRef = React.createRef();
+
+  return (
+    <View style={{ flex: 1, backgroundColor: 'white' }}>
+      <View style={styles.containerStyle}>
+        <Icon name="search" size={24} color={COLORS.black} />
+        <TextInput
+          ref={inputRef}
+          style={styles.inputStyle}
+          placeholder="Search by name ..."
+          value={search}
+          onChangeText={(val) => setSearch(val)}
+          onBlur={() => {
+            // Use inputRef to blur the TextInput
+            inputRef.current.blur();
+          }}
+        />
+      </View>
+      <FlatList
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        data={listData}
+        renderItem={(item) => <ChatRoom userData={item} />}
+      />
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
-    searchUser: {
-        position: 'absolute',
-        bottom: 60,
-        right: 20,
-        width: 60,
-        height: 60,
-        borderRadius: 30,
-        backgroundColor: COLORS.theme,
-        justifyContent: 'center',
-        alignItems: 'center',
-    }
-})
+  containerStyle: {
+    flexDirection: "row",
+    elevation: 2,
+    backgroundColor: 'white',
+    alignItems: "center",
+    paddingHorizontal: 20,
+  },
+  inputStyle: {
+    marginLeft: 15,
+    fontSize: 15,
+    fontFamily: FONTS.Regular,
+    color: 'black',
+    opacity: 0.7,
+  },
+});
+
+export default AllUser;
