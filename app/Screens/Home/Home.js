@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
     View,
     Text,
@@ -12,7 +12,10 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from "@react-navigation/native";
 import HomeHeader from "../../Components/UIComponents/HomeHeader";
 import ChatRoom from "../../Components/UIComponents/ChatRoom";
-
+import Auth from "../../Service/Auth";
+import { useDispatch, useSelector } from "react-redux";
+import { removeUser } from "../../Redux/reducer/user";
+import { firebase } from '@react-native-firebase/database';
 
 const listData = [
     {
@@ -80,7 +83,33 @@ const listData = [
 
 
 export default function Home() {
+    const reference = firebase
+        .app()
+        .database('https://rnchatapp-d75fd-default-rtdb.asia-southeast1.firebasedatabase.app/')
     const navigation = useNavigation()
+    const dispatch = useDispatch()
+    const { userData } = useSelector(state => state.User)
+    const [chatlist, setChatList] = useState([])
+    const handleLogout = async () => {
+        await Auth.logout()
+        dispatch(removeUser())
+    }
+
+    useEffect(() => {
+        getChatList()
+    },[])
+
+    const getChatList = () => {
+        reference
+        .ref(`/chatlist/${userData?.id}`)
+        .on('value', snapshot => {
+            if(snapshot.val() != null) {
+                console.log('User data: ', snapshot.val());
+                setChatList(Object.values(snapshot.val()))
+            }
+        });
+    }
+
     return (
         <View style={{ flex: 1, backgroundColor: COLORS.white }}>
             <StatusBar
@@ -92,14 +121,29 @@ export default function Home() {
             <FlatList
                 showsHorizontalScrollIndicator={false}
                 showsVerticalScrollIndicator={false}
-                data={listData}
-                renderItem={(item) => <ChatRoom userData={item} />}
+                data={chatlist}
+                renderItem={(item) => <ChatRoom chatPerson={item} />}
             />
             <TouchableOpacity
                 style={styles.searchUser}
                 onPress={() => navigation.navigate('AllUser')}
             >
                 <Icon name="users" size={20} color="white" />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+                style={{position: 'absolute',
+                bottom: 60,
+                left: 20,
+                width: 60,
+                height: 60,
+                borderRadius: 30,
+                backgroundColor: COLORS.theme,
+                justifyContent: 'center',
+                alignItems: 'center',}}
+                onPress={() => handleLogout()}
+            >
+                <Icon name="circle" size={20} color="white" />
             </TouchableOpacity>
         </View>
     )

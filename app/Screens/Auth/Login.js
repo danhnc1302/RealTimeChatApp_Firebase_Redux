@@ -189,5 +189,8 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: COLORS.black,
         textDecorationLine: 'underline',
+    },
+    inputs: {
+        flex: 1
     }
 })
