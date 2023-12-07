@@ -18,7 +18,7 @@ export default function ChatRoom({ chatPerson }) {
             />
             <View style={styles.wrapper}>
                 <Text style={styles.name}>{chatPerson.name}</Text>
-                <Text numberOfLines={1} ellipsizeMode="tail" style={styles.lastMsg}>{chatPerson.lastMsg}</Text>
+                <Text numberOfLines={1} ellipsizeMode="tail" style={styles.lastMsg}>{chatPerson.msgType === "image" ? "Image" : chatPerson.lastMsg}</Text>
             </View>
         </TouchableOpacity>
     )

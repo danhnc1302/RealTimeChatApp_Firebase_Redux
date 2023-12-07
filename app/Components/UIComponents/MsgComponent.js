@@ -1,9 +1,11 @@
 // import moment from 'moment';
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Pressable, Image, Dimensions } from 'react-native';
 import { COLORS } from '../Constant/Color';
 import { FONTS } from '../Constant/Font';
 import TimeDelivery from './TimeDelivery';
+
+const { width, height } = Dimensions.get("screen")
 
 const MsgComponent = (props) => {
     const { sender, item, sendTime } = props;
@@ -28,11 +30,23 @@ const MsgComponent = (props) => {
                     backgroundColor: sender ? COLORS.theme : COLORS.white
                 }]}
             >
-
-                <Text style={{ paddingLeft: 5, color:  sender ? COLORS.white : COLORS.black,fontFamily:FONTS.Regular,fontSize:12.5 }}>
-                    {item.message}
-                </Text>
-
+                {
+                    item.msgType === "text" ? (
+                        <Text style={{ paddingLeft: 5, color: sender ? COLORS.white : COLORS.black, fontFamily: FONTS.Regular, fontSize: 12.5 }}>
+                            {item.message}
+                        </Text>
+                    ) : (
+                        <Image
+                            source={{ uri: item.message }}
+                            style={{
+                                height: 200,
+                                width: width / 1.5,
+                                resizeMode: 'cover',
+                                borderRadius: 5,
+                            }}
+                        />
+                    )
+                }
                 <TimeDelivery
                     sender={sender}
                     item={item}
